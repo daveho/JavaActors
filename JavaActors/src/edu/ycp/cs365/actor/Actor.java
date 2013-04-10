@@ -11,7 +11,7 @@ public abstract class Actor {
 		this.mailbox = new ConcurrentLinkedQueue<Message>();
 	}
 	
-	public abstract void process(Message message);
+	public abstract void react(Message message);
 	
 	public void send(ActorId recipient, Object contents) {
 		group.send(new ActorId(this.index), recipient, contents);

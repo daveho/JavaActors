@@ -22,7 +22,7 @@ public class ActorGroup {
 						synchronized (lock) {
 							recipient = actorList.get(message.getRecipientId().getIndex());
 						}
-						recipient.process(message);
+						recipient.react(message);
 					} else {
 						// back off
 						backOff();

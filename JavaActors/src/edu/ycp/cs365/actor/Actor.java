@@ -17,6 +17,10 @@ public abstract class Actor {
 		group.send(new ActorId(this.index), recipient, contents);
 	}
 	
+	public void spawn(Actor actor) {
+		group.addActor(actor);
+	}
+	
 	void setGroup(ActorGroup group) {
 		this.group = group;
 	}

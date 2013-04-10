@@ -47,4 +47,13 @@ public class ActorGroup {
 		Message message = new Message(content, senderId, recipientId);
 		messageQueue.add(message);
 	}
+	
+	void addActor(Actor actor) {
+		synchronized (lock) {
+			int index = actorList.size();
+			actorList.add(actor);
+			actor.setIndex(index);
+			actor.setGroup(this);
+		}
+	}
 }

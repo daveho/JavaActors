@@ -55,6 +55,10 @@ public class MandelbrotActor extends Actor {
 			
 			// Have all rows been computed?
 			if (result.getRowList().size() == numRowsExpected) {
+				// Sort the rows
+				result.sort();
+				
+				// Now we're finished
 				setFinished();
 			}
 		} else {

@@ -34,9 +34,8 @@ public class Main {
 		// Shutdown the worker threads
 		group.shutdown();
 		
-		// Get the result, sort the rows, and print the rows
+		// Get the result and print the rows
 		Grid result = rootActor.getResult();
-		result.sort();
 		for (Row r : result.getRowList()) {
 			int[] iterCounts = r.getIterCounts();
 			for (int i = 0; i < iterCounts.length; i++) {

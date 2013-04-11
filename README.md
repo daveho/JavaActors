@@ -7,4 +7,4 @@ It's quite basic, but it does more or less seem to work.
 
 The code is under the MIT license.
 
-David Hovemeyer <dhovemey@cs.ycp.edu>
+David Hovemeyer <david.hovemeyer@gmail.com>

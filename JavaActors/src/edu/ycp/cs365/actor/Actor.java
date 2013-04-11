@@ -17,8 +17,12 @@ public abstract class Actor {
 		group.send(new ActorId(this.index), recipient, contents);
 	}
 	
-	public void spawn(Actor actor) {
-		group.addActor(actor);
+	public ActorId spawn(Actor actor) {
+		return group.addActor(actor);
+	}
+
+	protected void unexpectedMessageContent(Object content) {
+		throw new IllegalArgumentException("Unexpected message type: " + content.getClass().getSimpleName());
 	}
 	
 	void setGroup(ActorGroup group) {

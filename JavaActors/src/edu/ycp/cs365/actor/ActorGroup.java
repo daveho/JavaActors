@@ -40,13 +40,11 @@ public class ActorGroup {
 
 	// A worker thread.
 	private class Worker implements Runnable {
-		private int backoffTime;
+		private int backoffTime = 5;
 		
 		@Override
 		public void run() {
 			try {
-				backoffTime = 5;
-				
 				while (!finished) {
 					// See if there is a message waiting to be sent
 					Message message = messageQueue.poll();
@@ -57,12 +55,22 @@ public class ActorGroup {
 						// reset backoff timer
 						backoffTime = 5;
 						
-						// process message
+						// Find the recipient
 						Actor recipient;
 						synchronized (lock) {
 							recipient = actorList.get(message.getRecipientId().getIndex());
 						}
-						recipient.react(message);
+						
+						// Attempt to process the message
+						boolean processed = recipient.process(message);
+						
+						// If the message couldn't be processed because the
+						// recipient was busy, reschedule the message for later
+						if (!processed) {
+							messageQueue.add(message);
+							
+							// FIXME: would be nice to ensure that we don't burn significant CPU time here
+						}
 					} else {
 						// No message: sleep for a bit
 						idle();

@@ -1,0 +1,26 @@
+<project name="JavaActors" default="jar">
+
+	<target name="javac">
+		<mkdir dir="bin"/>
+		<javac source="1.6" target="1.6" srcdir="src" destdir="bin"/> 
+	</target>
+	
+	<target name="jar" depends="javac">
+		<jar destfile="JavaActors.jar">
+			<!-- Include all .class files (except example code). -->
+			<fileset dir="bin" includes="**/*.class" excludes="edu/ycp/cs365/actordemo/**"/>
+			<!-- Include all source code (except example code). -->
+			<fileset dir="src" includes="**/*.java" excludes="edu/ycp/cs365/actordemo/**"/>
+		</jar>
+	</target>
+	
+	<target name="clean">
+		<delete>
+			<fileset dir="bin">
+				<include name="**"/>
+			</fileset>
+		</delete>
+		<delete file="JavaActors.jar"></delete>
+	</target>
+
+</project>

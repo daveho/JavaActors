@@ -1,5 +1,10 @@
 package edu.ycp.cs365.actordemo;
 
+/**
+ * Iteration counts for one row of the Mandelbrot set computation.
+ * 
+ * @author David Hovemeyer
+ */
 public class Row {
 	private double y;
 	private int[] iterCounts;

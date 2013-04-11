@@ -3,6 +3,12 @@ package edu.ycp.cs365.actordemo;
 import edu.ycp.cs365.actor.Actor;
 import edu.ycp.cs365.actor.Message;
 
+/**
+ * Actor class that receives a {@link RowSpec} and computes iteration
+ * counts for each point in that row.
+ * 
+ * @author David Hovemeyer
+ */
 public class RowActor extends Actor {
 	public static final int MAX_ITERS = 800;
 	

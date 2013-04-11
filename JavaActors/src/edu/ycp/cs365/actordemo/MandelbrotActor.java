@@ -4,15 +4,20 @@ import edu.ycp.cs365.actor.Actor;
 import edu.ycp.cs365.actor.ActorId;
 import edu.ycp.cs365.actor.Message;
 
+/**
+ * Actor to coordinate the overall Mandelbrot set computation.
+ * 
+ * @author David Hovemeyer
+ */
 public class MandelbrotActor extends Actor {
 	private Grid result;
 	private int numRowsExpected;
-	private boolean done;
+	private boolean finished;
 	private Object lock;
 	
 	public MandelbrotActor() {
 		result = new Grid();
-		done = false;
+		finished = false;
 		lock = new Object();
 	}
 	
@@ -21,11 +26,13 @@ public class MandelbrotActor extends Actor {
 		Object content = message.getContent();
 		
 		if (content instanceof MandelbrotSpec) {
+			// The MandelbrotSpec message describes the overall computation
+			// to be performed.
 			System.out.println("Received MandelbrotSpec");
 			MandelbrotSpec mspec = (MandelbrotSpec) content;
 			this.numRowsExpected = mspec.getNrows();
 			
-			// Create RowActors
+			// Create RowActors to carry out the computation for each row
 			double dy = (mspec.getYmax() - mspec.getYmin()) / mspec.getNrows();
 			double dx = (mspec.getXmax() - mspec.getXmin()) / mspec.getNcols();
 			
@@ -40,6 +47,7 @@ public class MandelbrotActor extends Actor {
 				send(id, rowSpec);
 			}
 		} else if (content instanceof Row) {
+			// A Row is sent back by each RowActor
 			System.out.println("Received Row " + ((Row)content).getY());
 			
 			// Received a computed row
@@ -47,23 +55,23 @@ public class MandelbrotActor extends Actor {
 			
 			// Have all rows been computed?
 			if (result.getRowList().size() == numRowsExpected) {
-				finished();
+				setFinished();
 			}
 		} else {
 			unexpectedMessageContent(content);
 		}
 	}
 
-	private void finished() {
+	private void setFinished() {
 		synchronized (lock) {
-			done = true;
+			finished = true;
 			lock.notifyAll();
 		}
 	}
 	
 	public void waitUntilFinished() throws InterruptedException {
 		synchronized (lock) {
-			while (!done) {
+			while (!finished) {
 				lock.wait();
 			}
 		}

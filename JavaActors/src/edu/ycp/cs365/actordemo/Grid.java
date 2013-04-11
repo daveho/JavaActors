@@ -5,6 +5,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * A list of {@link Row}s that is the overall result of the
+ * Mandelbrot set computation.
+ * 
+ * @author David Hovemeyer
+ */
 public class Grid {
 	private List<Row> rowList;
 	
